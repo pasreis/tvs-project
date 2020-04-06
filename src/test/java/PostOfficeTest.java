@@ -100,7 +100,7 @@ public class PostOfficeTest {
 		List<Product> products = new ArrayList<Product>();
 
 		// Act
-		PostOffice postOffice = new PostOffice();
+		PostOffice postOffice = new PostOffice(maxNumberOfProducts, products);
 
 		// Assert
 		assertEquals(postOffice.getProducts().size(), 0);
@@ -110,18 +110,57 @@ public class PostOfficeTest {
 	@Test
 	public void RM_Hold_03 () {
 		// Arrange
+		int maxNumberOfProducts = 9;
+
+		Product p1 = new Product("P1", "This is the product P1", 2, 4);
+		Product p2 = new Product("P2", "This is the product P2", 3, 0);
+		Product p3 = new Product("P3", "This is the product P3", 5, 6);
+
+		List<Product> products = new ArrayList<Product>();
+		products.add(p1);
+		products.add(p2);
+		products.add(p3);
+
+		PostOffice postOffice = new PostOffice(maxNumberOfProducts, products);
 
 		// Act
+		boolean returnValue = postOffice.removeProduct(p2.getName());
 
 		// Assert
+		assertTrue(returnValue);
+		assertEquals(postOffice.getProducts().size(), 2);
+		assertEquals(postOffice.getMaxNumberOfProducts(), maxNumberOfProducts);
+		assertFalse(postOffice.getProducts().contains(p2));
 	}
 
 	@Test
 	public void UP_Full_01 () {
 		// Arange
+		int maxNumberOfProducts = 3;
+
+		Product p1 = new Product("P1", "This is the product P1", 2, 10);
+		Product p2 = new Product("P2", "This is the product P2", 3, 0);
+		Product p3 = new Product("P3", "This is the product P3", 5, 6);
+
+		List<Product> products = new ArrayList<Product>();
+		products.add(p1);
+		products.add(p2);
+		products.add(p3);
+
+		PostOffice postOffice = new PostOffice(maxNumberOfProducts, products);
+
+		int newPrice = 0;
+		int newQuantity = 4;
+		String productName = p1.getName();
 
 		// Act
+		boolean returnValue = postOffice.update(productName, newPrice, newQuantity);
 
 		// Assert
+		assertTrue(returnValue);
+		assertEquals(postOffice.getProducts().size(), 3);
+		assertEquals(postOffice.getMaxNumberOfProducts(), maxNumberOfProducts);
+		assertEquals(postOffice.getProducts().get(postOffice.getProducts().indexOf(p1)).getPrice(), newPrice);
+		assertEquals(postOffice.getProducts().get(postOffice.getProducts().indexOf(p1)).getCurrentQuantity(), newQuantity);
 	}
 }
