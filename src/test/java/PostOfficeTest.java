@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class PostOfficeTest {
 	@Test
-	public void RP_Hold_08() {
+	public void RP_Hold_06	() {
 		// Arrange
 		int maxNumberOfProducts = 4;
 
@@ -35,4 +35,48 @@ public class PostOfficeTest {
 
 	}
 
+	@Test
+	public void UP_Hold_06 () {
+		// Arrange
+
+		// Act
+
+		// Assert
+	}
+
+	@Test
+	public void SMNoP_Full_04 () {
+		// Arrange
+
+		// Act
+
+		// Assert
+	}
+
+	@Test
+	public void PO_Const_02 () {
+		// Arrange
+
+		// Act
+
+		// Assert
+	}
+
+	@Test
+	public void RM_Hold_03 () {
+		// Arrange
+
+		// Act
+
+		// Assert
+	}
+
+	@Test
+	public void UP_Full_01 () {
+		// Arange
+
+		// Act
+
+		// Assert
+	}
 }
