@@ -96,10 +96,15 @@ public class PostOfficeTest {
 	@Test
 	public void PO_Const_02 () {
 		// Arrange
+		int maxNumberOfProducts = 3;
+		List<Product> products = new ArrayList<Product>();
 
 		// Act
+		PostOffice postOffice = new PostOffice();
 
 		// Assert
+		assertEquals(postOffice.getProducts().size(), 0);
+		assertEquals(postOffice.getMaxNumberOfProducts(), maxNumberOfProducts);
 	}
 
 	@Test
