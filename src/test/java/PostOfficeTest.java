@@ -69,10 +69,28 @@ public class PostOfficeTest {
 	@Test
 	public void SMNoP_Full_04 () {
 		// Arrange
+		int newMaxQuantity = 21;
+
+		final int maxNumberOfProducts = 3;
+
+		Product p1 = new Product("P1", "This is the product P1", 2, 4);
+		Product p2 = new Product("P2", "This is the product P2", 3, 0);
+		Product p3 = new Product("P3", "This is the product P3", 5, 6);
+
+		List<Product> products = new ArrayList<Product>();
+		products.add(p1);
+		products.add(p2);
+		products.add(p3);
+
+		PostOffice postOffice = new PostOffice(maxNumberOfProducts, products);
 
 		// Act
+		boolean returnValue = postOffice.setMaxNumberOfProducts(newMaxQuantity);
 
 		// Assert
+		assertFalse(returnValue);
+		assertEquals(postOffice.getMaxNumberOfProducts(), maxNumberOfProducts);
+		assertEquals(postOffice.getProducts().size(), 3);
 	}
 
 	@Test
