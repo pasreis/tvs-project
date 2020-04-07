@@ -37,7 +37,7 @@ public class PostOfficeTest {
 	}
 
 	@Test
-	public void RP_Hold_06	() {
+	public void RP_Hold_06__removeProduct2TimesOverTheSameProductInHoldingStateTest() {
 		// Arrange
 
 		// Act
@@ -52,7 +52,7 @@ public class PostOfficeTest {
 	}
 
 	@Test
-	public void UP_Hold_06 () {
+	public void UP_Hold_06__updateWithNullNameArgumentInHoldingStateTest() {
 		// Arrange
 		int newPrice = 13;
 		int newQuantity = 24;
@@ -68,7 +68,7 @@ public class PostOfficeTest {
 	}
 
 	@Test
-	public void SMNoP_Full_04 () {
+	public void SMNoP_Full_04__setMaxNumberOfProductsWith21AsArgumentInFullStateTest() {
 		// Arrange
 		int newMaxQuantity = 21;
 
@@ -82,7 +82,7 @@ public class PostOfficeTest {
 	}
 
 	@Test
-	public void PO_Const_02 () {
+	public void PO_Const_02__PostOfficeCreationWith3AsMaxNumberOfProductsAndAnEmptyProductsListTest() {
 		// Arrange
 		int maxNumberOfProducts = 3;
 		List<Product> products = new ArrayList<Product>();
@@ -96,7 +96,7 @@ public class PostOfficeTest {
 	}
 
 	@Test
-	public void RM_Hold_03 () {
+	public void RM_Hold_03__removeProductOKInHoldingStateTest() {
 		// Arrange
 		
 		// Act
@@ -110,7 +110,7 @@ public class PostOfficeTest {
 	}
 
 	@Test
-	public void UP_Full_01 () {
+	public void UP_Full_01__updateOKInFullStateTest() {
 		// Arange
 		int newPrice = 0;
 		int newQuantity = 4;
