@@ -1,40 +1,54 @@
-package app;
-
 import static org.testng.Assert.*;
 import org.testng.annotations.*;
 
+import app.PostOffice;
 import app.Product;
 
 import java.util.List;
 import java.util.ArrayList;
 
 public class PostOfficeTest {
-	@Test
-	public void RP_Hold_06	() {
-		// Arrange
-		int maxNumberOfProducts = 4;
+	private int maxNumberOfProductsFullState;
+	private int maxNumberOfProductsHoldingState;
+	private Product p1;
+	private Product p2;
+	private Product p3;
+	private List<Product> products;
+	private PostOffice postOfficeFullState;
+	private PostOffice postOfficeHoldingState;
 
-		Product p1 = new Product("P1", "This is the product P1", 2, 4);
-		Product p2 = new Product("P2", "This is the product P2", 3, 0);
-		Product p3 = new Product("P3", "This is the product P3", 5, 6);
+	@BeforeMethod
+	public void setup() {
+		maxNumberOfProductsFullState = 3;
+		maxNumberOfProductsHoldingState = 4;
 
-		List<Product> products = new ArrayList<Product>();
+		p1 = new Product("P1", "This is the product P1", 2, 4);
+		p2 = new Product("P2", "This is the product P2", 3, 0);
+		p3 = new Product("P3", "This is the product P3", 5, 6);
+
+		products = new ArrayList<Product>();
+
 		products.add(p1);
 		products.add(p2);
 		products.add(p3);
 
-		PostOffice postOffice = new PostOffice(maxNumberOfProducts, products);
+		postOfficeFullState = new PostOffice(maxNumberOfProductsFullState, products);
+		postOfficeHoldingState = new PostOffice(maxNumberOfProductsHoldingState, products);
+	}
+
+	@Test
+	public void RP_Hold_06	() {
+		// Arrange
 
 		// Act
-		postOffice.removeProduct("P2");
-		boolean returnValue = postOffice.removeProduct("P2");
+		postOfficeHoldingState.removeProduct(p2.getName());
+		boolean returnValue = postOfficeHoldingState.removeProduct(p2.getName());
 
 		// Assert
 		assertFalse(returnValue);
-		assertEquals(postOffice.getProducts().size(), 2);
-		assertEquals(postOffice.getMaxNumberOfProducts(), maxNumberOfProducts);
-		assertFalse(postOffice.getProducts().contains(p2));
-
+		assertEquals(postOfficeHoldingState.getProducts().size(), 2);
+		assertEquals(postOfficeHoldingState.getMaxNumberOfProducts(), maxNumberOfProductsHoldingState);
+		assertFalse(postOfficeHoldingState.getProducts().contains(p2));
 	}
 
 	@Test
@@ -44,26 +58,13 @@ public class PostOfficeTest {
 		int newQuantity = 24;
 		String prodcutName = null;
 
-		final int maxNumberOfProducts = 4;
-
-		Product p1 = new Product("P1", "This is the product P1", 2, 4);
-		Product p2 = new Product("P2", "This is the product P2", 3, 0);
-		Product p3 = new Product("P3", "This is the product P3", 5, 6);
-
-		List<Product> products = new ArrayList<Product>();
-		products.add(p1);
-		products.add(p2);
-		products.add(p3);
-
-		PostOffice postOffice = new PostOffice(maxNumberOfProducts, products);
-
 		// Act
-		boolean returnValue = postOffice.update(prodcutName, newPrice, newQuantity);
+		boolean returnValue = postOfficeHoldingState.update(prodcutName, newPrice, newQuantity);
 
 		// Assert
 		assertFalse(returnValue);
-		assertEquals(postOffice.getProducts().size(), 3);
-		assertEquals(postOffice.getMaxNumberOfProducts(), maxNumberOfProducts);
+		assertEquals(postOfficeHoldingState.getProducts().size(), 3);
+		assertEquals(postOfficeHoldingState.getMaxNumberOfProducts(), maxNumberOfProductsHoldingState);
 	}
 
 	@Test
@@ -71,26 +72,13 @@ public class PostOfficeTest {
 		// Arrange
 		int newMaxQuantity = 21;
 
-		final int maxNumberOfProducts = 3;
-
-		Product p1 = new Product("P1", "This is the product P1", 2, 4);
-		Product p2 = new Product("P2", "This is the product P2", 3, 0);
-		Product p3 = new Product("P3", "This is the product P3", 5, 6);
-
-		List<Product> products = new ArrayList<Product>();
-		products.add(p1);
-		products.add(p2);
-		products.add(p3);
-
-		PostOffice postOffice = new PostOffice(maxNumberOfProducts, products);
-
 		// Act
-		boolean returnValue = postOffice.setMaxNumberOfProducts(newMaxQuantity);
+		boolean returnValue = postOfficeFullState.setMaxNumberOfProducts(newMaxQuantity);
 
 		// Assert
 		assertFalse(returnValue);
-		assertEquals(postOffice.getMaxNumberOfProducts(), maxNumberOfProducts);
-		assertEquals(postOffice.getProducts().size(), 3);
+		assertEquals(postOfficeFullState.getMaxNumberOfProducts(), maxNumberOfProductsFullState);
+		assertEquals(postOfficeFullState.getProducts().size(), 3);
 	}
 
 	@Test
@@ -110,57 +98,32 @@ public class PostOfficeTest {
 	@Test
 	public void RM_Hold_03 () {
 		// Arrange
-		int maxNumberOfProducts = 9;
-
-		Product p1 = new Product("P1", "This is the product P1", 2, 4);
-		Product p2 = new Product("P2", "This is the product P2", 3, 0);
-		Product p3 = new Product("P3", "This is the product P3", 5, 6);
-
-		List<Product> products = new ArrayList<Product>();
-		products.add(p1);
-		products.add(p2);
-		products.add(p3);
-
-		PostOffice postOffice = new PostOffice(maxNumberOfProducts, products);
-
+		
 		// Act
-		boolean returnValue = postOffice.removeProduct(p2.getName());
+		boolean returnValue = postOfficeHoldingState.removeProduct(p2.getName());
 
 		// Assert
 		assertTrue(returnValue);
-		assertEquals(postOffice.getProducts().size(), 2);
-		assertEquals(postOffice.getMaxNumberOfProducts(), maxNumberOfProducts);
-		assertFalse(postOffice.getProducts().contains(p2));
+		assertEquals(postOfficeHoldingState.getProducts().size(), 2);
+		assertEquals(postOfficeHoldingState.getMaxNumberOfProducts(), maxNumberOfProductsHoldingState);
+		assertFalse(postOfficeHoldingState.getProducts().contains(p2));
 	}
 
 	@Test
 	public void UP_Full_01 () {
 		// Arange
-		int maxNumberOfProducts = 3;
-
-		Product p1 = new Product("P1", "This is the product P1", 2, 10);
-		Product p2 = new Product("P2", "This is the product P2", 3, 0);
-		Product p3 = new Product("P3", "This is the product P3", 5, 6);
-
-		List<Product> products = new ArrayList<Product>();
-		products.add(p1);
-		products.add(p2);
-		products.add(p3);
-
-		PostOffice postOffice = new PostOffice(maxNumberOfProducts, products);
-
 		int newPrice = 0;
 		int newQuantity = 4;
 		String productName = p1.getName();
 
 		// Act
-		boolean returnValue = postOffice.update(productName, newPrice, newQuantity);
+		boolean returnValue = postOfficeFullState.update(productName, newPrice, newQuantity);
 
 		// Assert
 		assertTrue(returnValue);
-		assertEquals(postOffice.getProducts().size(), 3);
-		assertEquals(postOffice.getMaxNumberOfProducts(), maxNumberOfProducts);
-		assertEquals(postOffice.getProducts().get(postOffice.getProducts().indexOf(p1)).getPrice(), newPrice);
-		assertEquals(postOffice.getProducts().get(postOffice.getProducts().indexOf(p1)).getCurrentQuantity(), newQuantity);
+		assertEquals(postOfficeFullState.getProducts().size(), 3);
+		assertEquals(postOfficeFullState.getMaxNumberOfProducts(), maxNumberOfProductsFullState);
+		assertEquals(postOfficeFullState.getProducts().get(postOfficeFullState.getProducts().indexOf(p1)).getPrice(), newPrice);
+		assertEquals(postOfficeFullState.getProducts().get(postOfficeFullState.getProducts().indexOf(p1)).getCurrentQuantity(), newQuantity);
 	}
 }
